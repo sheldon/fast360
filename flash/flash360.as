@@ -1,5 +1,8 @@
 import flash.external.ExternalInterface;
 
+Stage.scaleMode = "noScale";
+Stage.align = "TL";
+
 var total_images = 0;
 var loaded_images_counter = 0;
 var loaded_images = [];
@@ -19,25 +22,32 @@ function init_360(images){
   });
 };
 
-_root.createEmptyMovieClip("cars",_root.getNextHighestDepth());
+_root.createEmptyMovieClip("rotator",_root.getNextHighestDepth());
 _root.attachMovie("loader","loader",_root.getNextHighestDepth());
-loader.gotoAndStop(1);
+loader.loader.gotoAndStop(1);
+loader._x = Stage.width - loader._width;
+loader._y = Stage.height - loader._height - 100;
 
 function s_load(images, i, callback){
-	cars.createEmptyMovieClip("tmpHolder"+i,cars.getNextHighestDepth());
-	cars.createEmptyMovieClip("timerListener"+i,cars.getNextHighestDepth());
-	var tmpHolder = cars["tmpHolder"+i];
+	rotator.createEmptyMovieClip("tmpHolder"+i,rotator.getNextHighestDepth());
+	rotator.createEmptyMovieClip("timerListener"+i,rotator.getNextHighestDepth());
+	var tmpHolder = rotator["tmpHolder"+i];
   loaded_images[i] = false;
 	tmpHolder._alpha = 0;
   setTimeout(slow_load, Math.random() * 10000, images[i], tmpHolder);
-	cars["timerListener"+i].onEnterFrame = function(){
+	rotator["timerListener"+i].onEnterFrame = function(){
 		if(tmpHolder.getBytesTotal() > 0 && tmpHolder.getBytesLoaded() >= tmpHolder.getBytesTotal()){
 			delete this.onEnterFrame;
 		  loaded_images_counter++;
-		  loader.gotoAndStop(Math.round(loader._totalframes * (loaded_images_counter / total_images)));
-		  if(loaded_images_counter >= total_images) finished_loading = true;
+		  loader.loader.gotoAndStop(Math.round(loader.loader._totalframes * (loaded_images_counter / total_images)));
+		  if(loaded_images_counter >= total_images){
+		    finished_loading = true;
+		    loader._visible = false;
+	    }
 		  loaded_images[i] = true;
-			if(i == 0) tmpHolder._alpha = 100;
+			if(i == 0) tmpHolder._visible = true;
+		  else tmpHolder._visible = false;
+		  tmpHolder._alpha = 100;
 			if(typeof(callback) == "function") callback();
 		}
 	};
@@ -59,11 +69,11 @@ function activate_movement(){
       if(Math.abs(diff) > 0){
         var new_image = (current_image + diff + total_images) % total_images;
         
-        //allow for missing images by finding the closest one and moving to that one instead
+        //allow for missing images by finding the closest one and moving to that one instead (only look up to half way, otherwise it will look like rotation in the wrong direction)
         if(!finished_loading && !loaded_images[new_image]){
       	  var avoid_neg = new_image + total_images;
       	  var look_direction = diff > 0 ? 1 : -1;
-        	for(var i = 1; i <= total_images; i++){
+        	for(var i = 1; i <= total_images / 2; i++){
         	  var look_ahead = (avoid_neg + (i * look_direction)) % total_images;
         	  if(loaded_images[look_ahead]){
         	    new_image = look_ahead;
@@ -73,8 +83,8 @@ function activate_movement(){
         }
         
         if(finished_loading || new_image != current_image){ //only change if it actually is a new image
-          cars["tmpHolder"+new_image]._alpha = 100;
-          cars["tmpHolder"+current_image]._alpha = 0;
+          rotator["tmpHolder"+new_image]._visible = true;
+          rotator["tmpHolder"+current_image]._visible = false;
           current_image = new_image;
         }
         
