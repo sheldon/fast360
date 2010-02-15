@@ -1,5 +1,3 @@
-var flash_markup = '<div id="fast360"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%"><param name="movie" value="/flash/flash360.swf" /><param name="swliveconnect" value="true" /><param name="allowscriptaccess" value="always" /><!--[if !IE]>--><object type="application/x-shockwave-flash" data="/flash/flash360.swf" width="100%" height="100%"><param name="swliveconnect" value="true" /><param name="allowscriptaccess" value="always" /><!--<![endif]--><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a><!--[if !IE]>--></object><!--<![endif]--></object></div>';
-
 jQuery(document).ready(function(){
   var images = [];
 
@@ -7,7 +5,15 @@ jQuery(document).ready(function(){
     images.push(jQuery(this).attr("href"));
   });
 
-  jQuery("ul").replaceWith(flash_markup);
+	var flashvars = {};
+	var params = {
+	  swliveconnect:"true",
+	  allowscriptaccess:"always"
+	};
+	var attributes = {
+	  id:"fast360_flash"
+	};
+	swfobject.embedSWF("/flash/flash360.swf", "fast360", "100%", "100%", "8.0.0", false, flashvars, params, attributes);
 
   //wait for flash to expose the init function
   var f_slow = setInterval(function(){

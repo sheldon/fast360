@@ -12,11 +12,14 @@ var movement_damp;
 
 ExternalInterface.addCallback("init_360", this, init_360);
 function init_360(images){
+  status_check.text += "comms to flash!\n";
   total_images = images.length;
   movement_damp = 1.5 * total_images / Stage.width;
+  status_check.text += "init image 0\n";
   s_load(images, 0, function(){
     activate_movement();
     for(var i = 1; i < images.length; i++){
+      status_check.text += "init image "+i+"\n";
       s_load(images, i, false);
     }
   });
@@ -35,7 +38,9 @@ function s_load(images, i, callback){
   loaded_images[i] = false;
 	tmpHolder._alpha = 0;
 	loadMovie(images[i], tmpHolder);
+  status_check.text += "loading image "+i+"\n";
 	rotator["timerListener"+i].onEnterFrame = function(){
+    status_check.text += "waiting for load on image "+i+" "+images[i]+" "+tmpHolder.getBytesLoaded()+"/"+tmpHolder.getBytesTotal()+"\n";
 		if(tmpHolder.getBytesTotal() > 0 && tmpHolder.getBytesLoaded() >= tmpHolder.getBytesTotal()){
 			delete this.onEnterFrame;
 		  loaded_images_counter++;
