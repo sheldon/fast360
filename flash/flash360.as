@@ -34,7 +34,7 @@ function s_load(images, i, callback){
 	var tmpHolder = rotator["tmpHolder"+i];
   loaded_images[i] = false;
 	tmpHolder._alpha = 0;
-  setTimeout(slow_load, Math.random() * 10000, images[i], tmpHolder);
+	loadMovie(images[i], tmpHolder);
 	rotator["timerListener"+i].onEnterFrame = function(){
 		if(tmpHolder.getBytesTotal() > 0 && tmpHolder.getBytesLoaded() >= tmpHolder.getBytesTotal()){
 			delete this.onEnterFrame;
@@ -51,10 +51,6 @@ function s_load(images, i, callback){
 			if(typeof(callback) == "function") callback();
 		}
 	};
-}
-
-function slow_load(url_string, tmpHolder){
-	loadMovie(url_string, tmpHolder);
 }
 
 function activate_movement(){

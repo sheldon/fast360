@@ -3,17 +3,17 @@ flash360.swf Movie Report
 
 Frame #    Frame Bytes    Total Bytes    Scene
 -------    -----------    -----------    ----------------
-      1           4518           4518    Scene 1 (AS 2.0 Classes Export Frame)
+      1           4342           4342    Scene 1 (AS 2.0 Classes Export Frame)
 
 Scene                        Shape Bytes    Text Bytes    ActionScript Bytes
 -------------------------    -----------    ----------    ------------------
-Scene 1                                0             0                  2438
+Scene 1                                0             0                  2312
 
 Symbol                       Shape Bytes    Text Bytes    ActionScript Bytes
 -------------------------    -----------    ----------    ------------------
 loader holder                          0             0                     0
-loader                                92            59                     0
-loader bar                            47             0                     0
+loader                                51            59                     0
+loader bar                            38             0                     0
 
 Font Name                 Bytes        Characters    
 ----------------------    ---------    --------------
@@ -21,7 +21,7 @@ ArialMT                        1062    adgilno
 
 ActionScript Bytes    Location
 ------------------    --------
-              2438    Scene 1:actions:1
+              2312    Scene 1:actions:1
 
 
 
