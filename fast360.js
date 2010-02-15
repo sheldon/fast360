@@ -11,8 +11,9 @@ jQuery(document).ready(function(){
 
   //wait for flash to expose the init function
   var f_slow = setInterval(function(){
-    flash_obj = jQuery("object object")[0];
-    if(typeof(flash_obj.init_360) == "function"){
+    var flash_obj = jQuery("object object")[0];
+    if(!flash_obj) flash_obj = jQuery("object")[0];
+    if(typeof flash_obj.init_360 == "function"){
       clearInterval(f_slow);
       flash_obj.init_360(images);
     }
