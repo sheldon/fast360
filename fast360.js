@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 	var attributes = {
 	  id:"fast360_flash"
 	};
-	swfobject.embedSWF("/flash/flash360.swf", "fast360", "100%", "100%", "8.0.0", false, flashvars, params, attributes);
+	swfobject.embedSWF("/flash/fast360.swf", "fast360", "100%", "100%", "8.0.0", false, flashvars, params, attributes);
 
   //wait for flash to expose the init function
   var f_slow = setInterval(function(){
